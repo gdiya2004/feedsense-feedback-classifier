@@ -11,12 +11,10 @@ from utils import assign_priority
 app = Flask(__name__)
 CORS(app)
 
-BASE_PATH = "/content/drive/MyDrive/feedback-ml-system"
-
-MODEL_PATH = f"{BASE_PATH}/model/model_v1.pkl"
-VECTORIZER_PATH = f"{BASE_PATH}/model/vectorizer.pkl"
-ENCODER_PATH = f"{BASE_PATH}/model/label_encoder.pkl"
-LOG_PATH = f"{BASE_PATH}/logs/predictions.csv"
+MODEL_PATH = "model/model_v1.pkl"
+VECTORIZER_PATH = "model/vectorizer.pkl"
+ENCODER_PATH = "model/label_encoder.pkl"
+LOG_PATH = "logs/predictions.csv"
 
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
@@ -68,4 +66,5 @@ def model_info():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    app.run(host="0.0.0.0", port=5000)
+
