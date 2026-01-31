@@ -4,3 +4,6 @@ scikit-learn
 pandas
 nltk
 gunicorn
+psycopg2-binary
+SQLAlchemy
+Flask-SQLAlchemy
