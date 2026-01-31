@@ -9,7 +9,7 @@ venv/
 env/
 
 # Model files (too large for GitHub)
-*.pkl
+# *.pkl
 
 # Logs
 logs/
