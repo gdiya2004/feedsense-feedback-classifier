@@ -18,6 +18,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 CORS(app)
+class PredictionLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text)
+    category = db.Column(db.String(50))
+    priority = db.Column(db.String(20))
+    confidence = db.Column(db.Float)
+    timestamp = db.Column(db.DateTime)
+with app.app_context():
+    db.create_all()
 
 MODEL_PATH = "model/model_v1.pkl"
 VECTORIZER_PATH = "model/vectorizer.pkl"
@@ -56,12 +65,19 @@ def predict():
 
     import os
 
-# Ensure logs folder exists
-    os.makedirs("logs", exist_ok=True)
+from datetime import datetime
 
-    with open("logs/predictions.csv", mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([raw_text, category, priority, confidence, datetime.now()])
+log_entry = PredictionLog(
+    text=raw_text,
+    category=category,
+    priority=priority,
+    confidence=float(confidence),
+    timestamp=datetime.now()
+)
+
+db.session.add(log_entry)
+db.session.commit()
+
 
 
     return jsonify({
