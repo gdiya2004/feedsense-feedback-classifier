@@ -12,6 +12,11 @@ from preprocessing import clean_text
 from utils import assign_priority
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
 CORS(app)
 
 MODEL_PATH = "model/model_v1.pkl"
