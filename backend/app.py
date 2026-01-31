@@ -46,10 +46,15 @@ def predict():
     category = le.inverse_transform([pred_num])[0]
     priority = assign_priority(category)
 
-    os.makedirs(f"{BASE_PATH}/logs", exist_ok=True)
-    with open(LOG_PATH, mode='a', newline='') as file:
+    import os
+
+# Ensure logs folder exists
+    os.makedirs("logs", exist_ok=True)
+
+    with open("logs/predictions.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([raw_text, category, priority, confidence, datetime.now()])
+
 
     return jsonify({
         "category": category,
