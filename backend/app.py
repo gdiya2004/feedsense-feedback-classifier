@@ -1,3 +1,6 @@
+from flask_sqlalchemy import SQLAlchemy
+import os
+
 from flask_cors import CORS
 
 from flask import Flask, request, jsonify
