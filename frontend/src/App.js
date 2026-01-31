@@ -17,13 +17,15 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch("https://feedsense.onrender.com/predict", {
 
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        }
-      );
+      const response = await fetch("https://feedsense.onrender.com/predict", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+  },
+      body: JSON.stringify({ text }),
+});
 
       const data = await response.json();
       setResult(data);
