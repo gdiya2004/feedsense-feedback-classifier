@@ -54,20 +54,33 @@ from sqlalchemy import func
 @app.route("/stats", methods=["GET"])
 def get_stats():
     total = db.session.query(func.count(PredictionLog.id)).scalar()
-    urgent = db.session.query(func.count(PredictionLog.id)).filter_by(priority="High").scalar()
-    positive = db.session.query(func.count(PredictionLog.id)).filter_by(category="Positive").scalar()
 
-    negative = total - positive if total else 0
+    urgent = db.session.query(func.count(PredictionLog.id))\
+        .filter_by(priority="High").scalar()
 
-    positive_percent = round((positive / total) * 100, 1) if total else 0
-    negative_percent = round((negative / total) * 100, 1) if total else 0
+    praise_count = db.session.query(func.count(PredictionLog.id))\
+        .filter_by(category="Praise").scalar()
+
+    issue_count = db.session.query(func.count(PredictionLog.id))\
+        .filter(PredictionLog.category.in_(["Bug", "Complaint", "Billing Issue"]))\
+        .scalar()
+
+    suggestion_count = db.session.query(func.count(PredictionLog.id))\
+        .filter_by(category="Feature Request").scalar()
+
+    praise_percent = round((praise_count / total) * 100, 1) if total else 0
+    issue_percent = round((issue_count / total) * 100, 1) if total else 0
+    suggestion_percent = round((suggestion_count / total) * 100, 1) if total else 0
 
     return jsonify({
         "total_feedback": total,
-        "positive_percent": positive_percent,
-        "negative_percent": negative_percent,
+        "praise_percent": praise_percent,
+        "issue_percent": issue_percent,
+        "suggestion_percent": suggestion_percent,
         "urgent_issues": urgent
     })
+
+
 
 @app.route("/trend", methods=["GET"])
 def trend():
