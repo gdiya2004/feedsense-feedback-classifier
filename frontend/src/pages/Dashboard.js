@@ -22,21 +22,46 @@ export default function Dashboard() {
 
       {/* 🔹 Stats Cards */}
       <div style={styles.cards}>
-        <StatCard title="📩 Total Feedback" value={stats.total_feedback} color="#3b82f6" />
-        <StatCard title="😊 Positive %" value={`${stats.positive_percent}%`} color="#10b981" />
-        <StatCard title="😠 Negative %" value={`${stats.negative_percent}%`} color="#ef4444" />
-        <StatCard title="🚨 Urgent Issues" value={stats.urgent_issues} color="#f59e0b" />
+        <StatCard
+          title="📩 Total Feedback"
+          value={stats.total_feedback}
+          color="#3b82f6"
+        />
+
+        <StatCard
+          title="🌟 Praise %"
+          value={`${stats.praise_percent}%`}
+          color="#10b981"
+        />
+
+        <StatCard
+          title="⚠️ Issues %"
+          value={`${stats.issue_percent}%`}
+          color="#ef4444"
+        />
+
+        <StatCard
+          title="💡 Feature Requests %"
+          value={`${stats.suggestion_percent}%`}
+          color="#f59e0b"
+        />
+
+        <StatCard
+          title="🚨 Urgent Issues"
+          value={stats.urgent_issues}
+          color="#dc2626"
+        />
       </div>
 
       {/* 🔹 Charts Section */}
       <div style={styles.charts}>
         <div style={styles.chartBox}>
-          <h3 style={styles.chartTitle}>Sentiment Distribution</h3>
+          <h3 style={styles.chartTitle}>Feedback Category Distribution</h3>
           <SentimentPie />
         </div>
 
         <div style={styles.chartBox}>
-          <h3 style={styles.chartTitle}>Feedback Trend</h3>
+          <h3 style={styles.chartTitle}>Feedback Activity Trend</h3>
           <TrendLine />
         </div>
       </div>
@@ -47,7 +72,7 @@ export default function Dashboard() {
 const styles = {
   cards: {
     display: "grid",
-    gridTemplateColumns: "repeat(4,1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: "15px",
     margin: "20px 0"
   },
