@@ -22,7 +22,6 @@ export default function Sidebar({ setPage }) {
   );
 }
 
-
 const styles = {
   sidebar: {
     width: "220px",
@@ -30,19 +29,36 @@ const styles = {
     background: "#1e293b",
     color: "white",
     position: "fixed",
+    left: 0,
+    top: 0,
     padding: "20px",
-    zIndex: 1000, 
+    zIndex: 1000
   },
-  logo: {
-    marginBottom: "30px",
-  },
-  menu: {
-    listStyle: "none",
-    padding: 0,
-  },
-  item: {
-    marginBottom: "20px",
-    cursor: "pointer",
-    fontSize: "16px",
-  },
+  logo: { marginBottom: "30px" },
+  menu: { listStyle: "none", padding: 0 },
+  item: { marginBottom: "20px", cursor: "pointer", fontSize: "16px" }
 };
+
+// const styles = {
+//   sidebar: {
+//     width: "220px",
+//     height: "100vh",
+//     background: "#1e293b",
+//     color: "white",
+//     position: "fixed",
+//     padding: "20px",
+//     zIndex: 1000, 
+//   },
+//   logo: {
+//     marginBottom: "30px",
+//   },
+//   menu: {
+//     listStyle: "none",
+//     padding: 0,
+//   },
+//   item: {
+//     marginBottom: "20px",
+//     cursor: "pointer",
+//     fontSize: "16px",
+//   },
+// };

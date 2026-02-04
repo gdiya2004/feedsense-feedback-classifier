@@ -77,9 +77,12 @@ const styles = {
     padding: "30px",
     borderRadius: "12px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+    height:"300px",
     maxWidth: "600px",
-    margin: "auto",
-    marginTop:"200"
+    marginTop: "100px",
+    marginLeft:"auto",
+    marginRight:"auto"
+    // marginTop:"200"
   },
   textarea: {
     width: "100%",

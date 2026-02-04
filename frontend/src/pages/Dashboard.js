@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
-import SentimentPie from "../components/SentimentPie";
-import TrendLine from "../components/TrendLine";
+import SentimentPie from "../components/Charts/SentimentPie";
+import TrendLine from "../components/Charts/TrendLine";
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
