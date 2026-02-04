@@ -2,15 +2,15 @@
 # flask-cors
 # scikit-learn
 # pandas
-# nltk
+nltk
 # gunicorn
 # psycopg2-binary
-# SQLAlchemy
-# Flask-SQLAlchemy
+SQLAlchemy
+Flask-SQLAlchemy
 
 flask
 flask-cors
-flask-sqlalchemy
+# flask-sqlalchemy
 psycopg2-binary
 scikit-learn
 numpy
