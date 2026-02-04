@@ -37,7 +37,7 @@ export default function Upload() {
   };
 
   return (
-    <div style={{ marginLeft: "240px", padding: "20px" }}>
+    <div style={{padding: "20px" }}>
       <Navbar />
 
       <div style={styles.card}>

@@ -20,17 +20,38 @@ function App() {
     }
   };
 
-  return (
-    <div style={{ display: "flex" }}>
-      {/* Sidebar controls page switching */}
-      <Sidebar setPage={setPage} />
+  function App() {
+  const [page, setPage] = useState("dashboard");
 
-      {/* Main Content Area */}
-      <div style={{ marginLeft: "240px", width: "100%", padding: "20px" }}>
+  const renderPage = () => {
+    switch (page) {
+      case "upload":
+        return <Upload />;
+      case "urgent":
+        return <UrgentIssues />;
+      case "dashboard":
+      default:
+        return <Dashboard />;
+    }
+  };
+
+  return (
+    <div>
+      <Sidebar setPage={setPage} />
+      <div style={styles.content}>
         {renderPage()}
       </div>
     </div>
   );
+}
+
+const styles = {
+  content: {
+    marginLeft: "220px",   // SAME as sidebar width
+    padding: "20px",
+  },
+};
+
 }
 
 export default App;

@@ -14,10 +14,10 @@ export default function Dashboard() {
       .catch(err => console.error("Error fetching stats:", err));
   }, []);
 
-  if (!stats) return <p style={{ marginLeft: "240px" }}>Loading dashboard...</p>;
+  if (!stats) return <p>Loading dashboard...</p>;
 
   return (
-    <div style={{ marginLeft: "240px", padding: "20px" }}>
+    <div style={{ padding: "20px" }}>
       <Navbar />
 
       {/* 🔹 Stats Cards */}

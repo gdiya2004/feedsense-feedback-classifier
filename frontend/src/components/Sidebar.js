@@ -31,6 +31,7 @@ const styles = {
     color: "white",
     position: "fixed",
     padding: "20px",
+    zIndex: 1000, 
   },
   logo: {
     marginBottom: "30px",
