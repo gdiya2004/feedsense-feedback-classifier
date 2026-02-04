@@ -5,18 +5,28 @@ import Upload from "./pages/Upload";
 import UrgentIssues from "./pages/Urgent";
 
 function App() {
+  // Default page when app loads
   const [page, setPage] = useState("dashboard");
 
   const renderPage = () => {
-    if (page === "upload") return <Upload />;
-    if (page === "urgent") return <UrgentIssues />;
-    return <Dashboard />;
+    switch (page) {
+      case "upload":
+        return <Upload />;
+      case "urgent":
+        return <UrgentIssues />;
+      case "dashboard":
+      default:
+        return <Dashboard />;
+    }
   };
 
   return (
     <div style={{ display: "flex" }}>
+      {/* Sidebar controls page switching */}
       <Sidebar setPage={setPage} />
-      <div style={{ marginLeft: "100px", width: "100%" }}>
+
+      {/* Main Content Area */}
+      <div style={{ marginLeft: "240px", width: "100%", padding: "20px" }}>
         {renderPage()}
       </div>
     </div>

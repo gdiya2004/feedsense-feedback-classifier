@@ -1,4 +1,4 @@
-export default function UrgentIssues() {
+export default function Urgent() {
   const urgentData = [
     { text: "Payment deducted twice", category: "Billing", priority: "High" },
     { text: "App crashes frequently", category: "Bug", priority: "High" }
