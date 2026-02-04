@@ -1,7 +1,4 @@
-import { useState } from "react";
-import Dashboard from "../pages/Dashboard";
-import Upload from "../pages/Upload";
-import UrgentIssues from "../pages/Urgent";
+
 
 export default function Sidebar({ setPage }) {
   return (
