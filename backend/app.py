@@ -14,6 +14,9 @@ from utils import assign_priority
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    "connect_args": {"sslmode": "require"}
+}
 
 db = SQLAlchemy(app)
 
@@ -46,6 +49,49 @@ with open(ENCODER_PATH, "rb") as f:
 def health():
     return jsonify({"status": "API is running"})
 
+from sqlalchemy import func
+
+@app.route("/stats", methods=["GET"])
+def get_stats():
+    total = db.session.query(func.count(PredictionLog.id)).scalar()
+    urgent = db.session.query(func.count(PredictionLog.id)).filter_by(priority="High").scalar()
+    positive = db.session.query(func.count(PredictionLog.id)).filter_by(category="Positive").scalar()
+
+    negative = total - positive if total else 0
+
+    positive_percent = round((positive / total) * 100, 1) if total else 0
+    negative_percent = round((negative / total) * 100, 1) if total else 0
+
+    return jsonify({
+        "total_feedback": total,
+        "positive_percent": positive_percent,
+        "negative_percent": negative_percent,
+        "urgent_issues": urgent
+    })
+
+@app.route("/trend", methods=["GET"])
+def trend():
+    results = db.session.query(
+        func.date(PredictionLog.timestamp),
+        func.count(PredictionLog.id)
+    ).group_by(func.date(PredictionLog.timestamp)) \
+     .order_by(func.date(PredictionLog.timestamp)).all()
+
+    data = [{"date": str(r[0]), "value": r[1]} for r in results]
+    return jsonify(data)
+
+
+@app.route("/sentiment-distribution", methods=["GET"])
+def sentiment_distribution():
+    results = db.session.query(
+        PredictionLog.category,
+        func.count(PredictionLog.id)
+    ).group_by(PredictionLog.category).all()
+
+    data = [{"name": r[0], "value": r[1]} for r in results]
+    return jsonify(data)
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
@@ -65,18 +111,18 @@ def predict():
 
     import os
 
-from datetime import datetime
+    from datetime import datetime
 
-log_entry = PredictionLog(
-    text=raw_text,
-    category=category,
-    priority=priority,
-    confidence=float(confidence),
-    timestamp=datetime.now()
-)
+    log_entry = PredictionLog(
+        text=raw_text,
+        category=category,
+        priority=priority,
+        confidence=float(confidence),
+        timestamp=datetime.now()
+    )
 
-db.session.add(log_entry)
-db.session.commit()
+    db.session.add(log_entry)
+    db.session.commit()
 
 
 
