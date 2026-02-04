@@ -105,9 +105,14 @@ def predict():
     # 🔹 Prediction
     pred_num = model.predict(vector_input)[0]
 
-    # 🔹 Proper confidence using probabilities
-    probs = model.predict_proba(vector_input)
-    confidence = float(max(probs[0]))
+    if hasattr(model, "predict_proba"):
+        probs = model.predict_proba(vector_input)[0]
+        confidence = float(max(probs))
+    elif hasattr(model, "decision_function"):
+        scores = model.decision_function(vector_input)
+        confidence = float(abs(scores[0][pred_num]))
+    else:
+        confidence = 0.0
 
     category = le.inverse_transform([pred_num])[0]
     priority = assign_priority(category)
