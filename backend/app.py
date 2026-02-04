@@ -102,29 +102,27 @@ def predict():
     cleaned = clean_text(raw_text)
     vector_input = vectorizer.transform([cleaned])
 
+    # 🔹 Prediction
     pred_num = model.predict(vector_input)[0]
-    scores = model.decision_function(vector_input)
-    confidence = float(max(scores[0]))
+
+    # 🔹 Proper confidence using probabilities
+    probs = model.predict_proba(vector_input)
+    confidence = float(max(probs[0]))
 
     category = le.inverse_transform([pred_num])[0]
     priority = assign_priority(category)
 
-    import os
-
-    from datetime import datetime
-
+    # 🔹 Save to database
     log_entry = PredictionLog(
         text=raw_text,
         category=category,
         priority=priority,
-        confidence=float(confidence),
+        confidence=confidence,
         timestamp=datetime.now()
     )
 
     db.session.add(log_entry)
     db.session.commit()
-
-
 
     return jsonify({
         "category": category,
