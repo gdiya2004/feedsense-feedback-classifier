@@ -12,7 +12,15 @@ from preprocessing import clean_text
 from utils import assign_priority
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+db_url = os.environ.get("DATABASE_URL")
+
+if not db_url:
+    raise ValueError("DATABASE_URL is not set!")
+
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     "connect_args": {"sslmode": "require"}
@@ -157,5 +165,7 @@ def model_info():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
 
